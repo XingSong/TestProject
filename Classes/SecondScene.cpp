@@ -7,6 +7,10 @@
 using namespace cocostudio;
 //using namespace ui;
 USING_NS_CC_EXT;
+
+#define LayerTestUI_TAG 100
+#define LayerExitUI_TAG 101
+
 cocos2d::Scene* SecondScene::createScene()
 {
 	// 'scene' is an autorelease object
@@ -37,20 +41,24 @@ bool SecondScene::init()
 
 	LayerTestUI = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("Json/LayerTest.json");
 	//	UI->setPosition(Vec2(100, 100));
-	this->addChild(LayerTestUI);
-	setTag(100);
+	this->addChild(LayerTestUI,1);
+	LayerTestUI->setTag(100);
 	Button *pExitBtn = (Button *)Helper::seekWidgetByName(LayerTestUI, "Button_ExitGame");
-	pExitBtn->addTouchEventListener(this, toucheventselector(SecondScene::exitGame));
+	pExitBtn->addTouchEventListener(this, toucheventselector(SecondScene::enterLayerUI));
 
 	Button *pCaptureScreen = (Button*)Helper::seekWidgetByName(LayerTestUI, "Button_CaptureScreen");
 	pCaptureScreen->addTouchEventListener(this, toucheventselector(SecondScene::capture));
 	
 
-	//LayerExitUI = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("Json/LayerExit.json");
-	//this->addChild(LayerExitUI);
-	//LayerExitUI->setVisible(false);
-	//(Button *)m_btnSure = (Button *)Helper::seekWidgetByName(LayerExitUI, "Btn_Sure");
-	//m_btnSure->addTouchEventListener(LayerExitUI, toucheventselector(SecondScene::exitGame));
+	LayerExitUI = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("Json/LayerExit.json");
+	this->addChild(LayerExitUI);
+	LayerExitUI->setTag(LayerExitUI_TAG);
+	LayerExitUI->setVisible(false);
+	(Button *)m_btnSure = (Button *)Helper::seekWidgetByName(LayerExitUI, "Btn_Sure");
+	m_btnSure->addTouchEventListener(LayerExitUI, toucheventselector(SecondScene::exitGame));
+
+	(Button *)m_btnCancel = (Button*)Helper::seekWidgetByName(LayerExitUI, "Btn_Cancel");
+	m_btnCancel->addTouchEventListener(LayerExitUI, toucheventselector(SecondScene::cancelExitGame));
 
 	return true;
 }
@@ -155,6 +163,25 @@ void SecondScene::enterLayerUI(Ref* sender, TouchEventType type)
 	default:
 		break;
 	}
+}
+
+void SecondScene::cancelExitGame(Ref* sender, TouchEventType type)
+{
+	switch (type)
+	{
+	case TouchEventType::TOUCH_EVENT_BEGAN:
+		break;
+	case TouchEventType::TOUCH_EVENT_ENDED:
+		
+		break;
+	case TouchEventType::TOUCH_EVENT_MOVED:
+		break;
+	case TouchEventType::TOUCH_EVENT_CANCELED:
+		break;
+	default:
+		break;
+	}
+
 }
 
 void SecondScene::capture(Ref* pSender, TouchEventType type)

@@ -27,7 +27,7 @@ public:
 	//cocos2d::Node* ParseLayerJsonFile(pConstChar szFile,SecondScene* pLayer = NULL);
 	void exitGame(Ref* sender,TouchEventType type);
 	void enterLayerUI(Ref* sender, TouchEventType type);
-
+	void cancelExitGame(Ref* sender, TouchEventType type);
 //½ØÆÁ
 	void capture(Ref* pSender, TouchEventType type);
 	void captureImpl();
